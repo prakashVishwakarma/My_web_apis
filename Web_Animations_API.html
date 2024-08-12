@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Animations API</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+    <script>
+        // Select the element
+        const box = document.querySelector('.box');
+
+        // Define the keyframes
+        const keyframes = [
+            { transform: 'translateX(0px)', opacity: 1 },
+            { transform: 'translateX(100px)', opacity: 0.5 },
+            { transform: 'translateX(0px)', opacity: 1 }
+        ];
+
+        // Define the timing
+        const timing = {
+            duration: 2000, // Duration in milliseconds
+            iterations: Infinity, // Loop indefinitely
+            easing: 'ease-in-out' // Easing function
+        };
+
+        // Create the animation
+        const animation = box.animate(keyframes, timing);
+
+        // Control the animation
+        // animation.pause(); // Pause the animation
+        // animation.play(); // Resume the animation
+        // animation.reverse(); // Reverse the animation
+        // animation.finish(); // Finish the animation immediately
+    </script>
+</body>
+</html>

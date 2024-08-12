@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clipboard Example</title>
+</head>
+<body>
+  <h1>Clipboard API Example</h1>
+  <textarea id="clipboardText" rows="4" cols="50" placeholder="Enter text here..."></textarea>
+  <button id="copyButton">Copy</button>
+  <br>
+  <textarea id="clipboardTextPaste" rows="4" cols="50" placeholder="Text will be pasted here..."></textarea>
+  <button id="pasteButton">Paste</button>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+  const copyButton = document.getElementById('copyButton');
+  const pasteButton = document.getElementById('pasteButton');
+  const clipboardText = document.getElementById('clipboardText');
+  const clipboardTextPaste = document.getElementById('clipboardTextPaste');
+
+  // Function to copy text to the clipboard
+  async function copyTextToClipboard() {
+    try {
+      await navigator.clipboard.writeText(clipboardText.value);
+    //   alert('Text copied to clipboard');
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  }
+
+  // Function to paste text from the clipboard
+  async function pasteTextFromClipboard() {
+    try {
+      const text = await navigator.clipboard.readText();
+      clipboardTextPaste.value = text;
+    //   alert('Text pasted from clipboard');
+    } catch (err) {
+      console.error('Failed to read text from clipboard: ', err);
+    }
+  }
+
+  // Event listeners for the buttons
+  copyButton.addEventListener('click', copyTextToClipboard);
+  pasteButton.addEventListener('click', pasteTextFromClipboard);
+});
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web APIs</title>
+</head>
+
+<body>
+    <h1>Web APIs</h1>
+    <button id="openFileButton">Open File</button>
+
+    <script type="module">
+        async function openFile() {
+            console.log("File open dialog triggered");
+            try {
+                // Prompt the user to select a file
+                const [fileHandle] = await window.showOpenFilePicker();
+                // Get a file from the handle
+                const file = await fileHandle.getFile();
+                // Read the file as text
+                const contents = await file.text();
+                console.log(contents);
+            } catch (err) {
+                console.error("Error: ", err);
+            }
+        }
+
+        document.getElementById('openFileButton').addEventListener('click', openFile);
+    </script>
+</body>
+
+</html>

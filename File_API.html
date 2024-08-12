@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Image Example</title>
+</head>
+<body>
+    <input type="file" id="fileInput" multiple>
+    <img id="preview" alt="Image preview will appear here">
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const files = event.target.files;
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                document.getElementById('preview').src = e.target.result;
+            };
+
+            if (files.length > 0) {
+                reader.readAsDataURL(files[0]);
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read File Example</title>
+</head>
+<body>
+    <input type="file" id="fileInput" multiple>
+    <pre id="fileContent"></pre>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const files = event.target.files;
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                document.getElementById('fileContent').textContent = e.target.result;
+            };
+
+            if (files.length > 0) {
+                reader.readAsText(files[0]);
+            }
+        });
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File API Example</title>
+</head>
+<body>
+    <input type="file" id="fileInput" multiple>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const files = event.target.files; // FileList object
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                console.log('File name:', file.name);
+                console.log('File size:', file.size);
+                console.log('File type:', file.type);
+            }
+        });
+    </script>
+</body>
+</html> -->

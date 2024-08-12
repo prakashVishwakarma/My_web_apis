@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History API Example</title>
+    <style>
+        nav a {
+            margin-right: 10px;
+            text-decoration: none;
+            color: blue;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="/" id="home">Home</a>
+        <a href="/about" id="about">About</a>
+        <a href="test.html" id="contact">Contact</a>
+    </nav>
+    <div id="content"></div>
+
+    <script type="module" src="">
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const contentDiv = document.getElementById('content');
+
+            function loadContent(page) {
+                switch (page) {
+                    case 'home':
+                        contentDiv.innerHTML = '<h1>Home</h1><p>This is the Home page.</p>';
+                        break;
+                    case 'about':
+                        contentDiv.innerHTML = '<h1>About</h1><p>This is the About page.</p>';
+                        break;
+                    case 'contact':
+                        contentDiv.innerHTML = '<h1>Contact</h1><p>This is the Contact page.</p>';
+                        break;
+                    default:
+                        contentDiv.innerHTML = '<h1>Home</h1><p>This is the Home page.</p>';
+                }
+            }
+
+            function handleNavigation(event) {
+                event.preventDefault();
+                const page = event.target.id;
+
+                history.pushState({ page: page }, page, `/${page}`);
+                loadContent(page);
+            }
+
+            document.getElementById('home').addEventListener('click', handleNavigation);
+            document.getElementById('about').addEventListener('click', handleNavigation);
+            document.getElementById('contact').addEventListener('click', handleNavigation);
+
+            window.addEventListener('popstate', (event) => {
+                if (event.state) {
+                    loadContent(event.state.page);
+                } else {
+                    loadContent('home');
+                }
+            });
+
+            // Load initial content based on the current URL or state
+            const initialPage = location.pathname.substring(1) || 'home';
+            loadContent(initialPage);
+            history.replaceState({ page: initialPage }, initialPage, `/${initialPage}`);
+        });
+
+    </script>
+</body>
+
+</html>

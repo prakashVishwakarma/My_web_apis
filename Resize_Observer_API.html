@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resize Observer API</title>
+</head>
+
+<body>
+    <div id="resize-me">Resize me!</div>
+
+</body>
+<script>
+    // Create a new ResizeObserver instance and define the callback function
+    const resizeObserver = new ResizeObserver(entries => {
+        for (let entry of entries) {
+            // The observed element
+            const target = entry.target;
+
+            // The content box size of the element
+            const contentRect = entry.contentRect;
+
+            // Log the new dimensions
+            console.log('Element:', target);
+            console.log('Content box size:', contentRect.width, contentRect.height);
+
+            // Example: Adjust element's style based on its new size
+            target.style.backgroundColor = contentRect.width > 500 ? 'lightgreen' : 'lightcoral';
+        }
+    });
+
+    // Select the element to observe
+    const observedElement = document.querySelector('#resize-me');
+
+    // Start observing the element
+    resizeObserver.observe(observedElement);
+
+    // Later, if you want to stop observing the element
+    // resizeObserver.unobserve(observedElement);
+
+    // To disconnect the observer from all observed elements
+    // resizeObserver.disconnect();
+
+</script>
+
+</html>

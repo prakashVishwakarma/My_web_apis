@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web MIDI API Example</title>
+</head>
+<body>
+  <h1>Web MIDI API Demo</h1>
+  <div id="status">Initializing...</div>
+  <select id="midiInputs"></select>
+  <select id="midiOutputs"></select>
+
+  <script>
+    async function initializeMIDI() {
+      if (navigator.requestMIDIAccess) {
+        try {
+          const midiAccess = await navigator.requestMIDIAccess();
+          document.getElementById('status').innerText = 'MIDI Access Granted';
+
+          // List MIDI inputs
+          const inputs = midiAccess.inputs.values();
+          for (let input of inputs) {
+            const option = document.createElement('option');
+            option.value = input.id;
+            option.text = input.name;
+            document.getElementById('midiInputs').appendChild(option);
+          }
+
+          // List MIDI outputs
+          const outputs = midiAccess.outputs.values();
+          for (let output of outputs) {
+            const option = document.createElement('option');
+            option.value = output.id;
+            option.text = output.name;
+            document.getElementById('midiOutputs').appendChild(option);
+          }
+
+        } catch (error) {
+          document.getElementById('status').innerText = 'Failed to get MIDI Access - ' + error.message;
+        }
+      } else {
+        document.getElementById('status').innerText = 'Web MIDI API not supported in this browser';
+      }
+    }
+
+    initializeMIDI();
+  </script>
+</body>
+</html>

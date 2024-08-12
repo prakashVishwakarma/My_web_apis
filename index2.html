@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File System Access API Example</title>
+</head>
+<body>
+    <input type="text" id="textInput" placeholder="Enter text to save" />
+    <button onclick="saveFile()">Save to File</button>
+
+    <script>
+        async function saveFile() {
+            try {
+                // Get the text input from the user
+                const userInput = document.getElementById('textInput').value;
+
+                // Prompt the user to select a location and filename to save the file
+                const options = {
+                    types: [
+                        {
+                            description: 'Text Files',
+                            accept: {
+                                'text/plain': ['.txt'],
+                            },
+                        },
+                    ],
+                };
+                const fileHandle = await window.showSaveFilePicker(options);
+
+                // Create a writable stream
+                const writable = await fileHandle.createWritable();
+
+                // Write user input to the file
+                await writable.write(userInput);
+
+                // Close the file and write the contents to disk
+                await writable.close();
+
+                alert('File saved successfully!');
+            } catch (err) {
+                console.error('Error saving file:', err);
+            }
+        }
+    </script>
+</body>
+</html>

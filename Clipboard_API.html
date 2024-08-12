@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clipboard API</title>
+</head>
+
+<body>
+    <button type="button" id="buttonID">button</button>
+</body>
+<script type="module" src="">
+    
+    document.getElementById('buttonID').addEventListener('paste', (event) => {
+        // Access the clipboard data
+        const clipboardData = event.clipboardData || window.clipboardData;
+        const pastedText = clipboardData.getData('text');
+        console.log('Pasted text:', pastedText);
+    });
+
+    // Function to copy text to clipboard
+    // async function copyTextToClipboard(text) {
+    //     try {
+    //         await navigator.clipboard.writeText(text);
+    //         console.log('Text copied to clipboard');
+    //     } catch (err) {
+    //         console.error('Failed to copy text: ', err);
+    //     }
+    // }
+
+    // // Usage
+    // copyTextToClipboard('Hello, Clipboard!');
+</script>
+
+</html>

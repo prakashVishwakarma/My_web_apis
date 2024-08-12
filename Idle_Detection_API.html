@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idle Detection API</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // Check if the Idle Detection API is supported
+    if ('IdleDetector' in window) {
+        // Create an instance of IdleDetector
+        const idleDetector = new IdleDetector();
+
+        // Define the options for the IdleDetector
+        const options = {
+            threshold: 60000 // Time in milliseconds (e.g., 60 seconds)
+        };
+
+        // Start detecting idle and active states
+        async function startDetection() {
+            try {
+                await idleDetector.start(options);
+
+                // Event listener for when the user becomes idle
+                idleDetector.addEventListener('change', (event) => {
+                    console.log('User state changed:', event.detail);
+                });
+
+                // Event listener for when the user is not supported
+                idleDetector.addEventListener('error', (error) => {
+                    console.error('IdleDetector error:', error);
+                });
+            } catch (error) {
+                console.error('Failed to start IdleDetector:', error);
+            }
+        }
+
+        startDetection();
+    } else {
+        console.log('Idle Detection API is not supported in this browser.');
+    }
+
+</script>
+
+</html>

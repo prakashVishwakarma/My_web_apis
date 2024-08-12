@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaRecorder API Example</title>
+</head>
+
+<body>
+    <h1>MediaRecorder API Example</h1>
+    <video id="videoPreview" width="640" height="480" autoplay></video>
+    <div>
+        <button id="startButton">Start Recording</button>
+        <button id="stopButton" disabled>Stop Recording</button>
+    </div>
+    <h2>Recorded Video</h2>
+    <video id="recordedVideo" width="640" height="480" controls></video>
+    <script>
+        const videoPreview = document.getElementById('videoPreview');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const recordedVideo = document.getElementById('recordedVideo');
+
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        // Function to handle success of getUserMedia
+        function handleSuccess(stream) {
+            videoPreview.srcObject = stream;
+
+            mediaRecorder = new MediaRecorder(stream);
+
+            mediaRecorder.ondataavailable = event => {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                }
+            };
+
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, {
+                    type: 'video/webm'
+                });
+                recordedChunks = [];
+                const url = URL.createObjectURL(blob);
+                recordedVideo.src = url;
+            };
+        }
+
+        // Function to handle error of getUserMedia
+        function handleError(error) {
+            console.error('Error: ', error);
+        }
+
+        // Start recording
+        startButton.addEventListener('click', () => {
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                .then(stream => {
+                    handleSuccess(stream);
+                    mediaRecorder.start();
+                    console.log('Recording started');
+
+                    startButton.disabled = true;
+                    stopButton.disabled = false;
+                })
+                .catch(handleError);
+        });
+
+        // Stop recording
+        stopButton.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                console.log('Recording stopped');
+
+                startButton.disabled = false;
+                stopButton.disabled = true;
+            } else {
+                console.error('MediaRecorder is not active.');
+            }
+        });
+
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaRecorder API Example</title>
+</head>
+
+<body>
+    <h1>MediaRecorder API Example</h1>
+    <video id="videoPreview" width="640" height="480" autoplay></video>
+    <div>
+        <button id="startButton">Start Recording</button>
+        <button id="stopButton" disabled>Stop Recording</button>
+    </div>
+    <h2>Recorded Video</h2>
+    <video id="recordedVideo" width="640" height="480" controls></video>
+    <script>
+        const videoPreview = document.getElementById('videoPreview');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const recordedVideo = document.getElementById('recordedVideo');
+
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        // Function to handle success of getUserMedia
+        function handleSuccess(stream) {
+            videoPreview.srcObject = stream;
+
+            mediaRecorder = new MediaRecorder(stream);
+
+            mediaRecorder.ondataavailable = event => {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                }
+            };
+            console.log(recordedChunks)
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, {
+                    type: 'video/webm'
+                });
+                recordedChunks = [];
+                const url = URL.createObjectURL(blob);
+                recordedVideo.src = url;
+                console.log(url)
+
+            };
+        }
+
+        // Function to handle error of getUserMedia
+        function handleError(error) {
+            console.error('Error: ', error);
+        }
+
+        // Start recording
+        startButton.addEventListener('click', () => {
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                .then(handleSuccess)
+                .catch(handleError);
+
+            startButton.disabled = true;
+            stopButton.disabled = false;
+        });
+
+        // Stop recording
+        stopButton.addEventListener('click', () => {
+            mediaRecorder.stop();
+            startButton.disabled = false;
+            stopButton.disabled = true;
+        });
+
+    </script>
+</body>
+
+</html> -->

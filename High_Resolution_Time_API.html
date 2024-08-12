@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High Resolution Time API</title>
+</head>
+
+<body>
+
+</body>
+<script type="module">
+    // Measure execution time of a block of code
+    const start = performance.now();
+
+    // Code to measure
+    for (let i = 0; i < 1000000; i++) {
+        // Some computation
+    }
+
+    const end = performance.now();
+    const duration = end - start;
+    console.log(`Execution time: ${duration} milliseconds`);
+
+</script>
+
+</html>

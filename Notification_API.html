@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification API Example</title>
+</head>
+
+<body>
+    <button id="notifyButton">Show Notification</button>
+</body>
+    <script type="module" src="">
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("DOM fully loaded and parsed");
+
+            // Check for Notification API support
+            if (!("Notification" in window)) {
+                alert("This browser does not support desktop notifications.");
+            } else {
+                // Request permission to use Notification API
+                if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === "granted") {
+                            alert("Notifications are enabled.");
+                        } else {
+                            alert("Notifications are disabled.");
+                        }
+                    });
+                }
+            }
+
+            // Function to show a notification
+            function showNotification() {
+                console.log("showNotification function called");
+
+                if (Notification.permission === "granted") {
+                    const options = {
+                        body: "This is the body of the notification.",
+                        icon: "icon.png" // Optional icon
+                    };
+
+                    const notification = new Notification("Notification Title", options);
+
+                    // Handle notification click event
+                    notification.onclick = function (event) {
+                        event.preventDefault(); // Prevent the browser from focusing the Notification's tab
+                        window.open('https://www.example.com', '_blank');
+                    };
+
+                    // Close the notification after 5 seconds
+                    setTimeout(notification.close.bind(notification), 5000);
+                } else {
+                    alert("Notifications are not enabled.");
+                }
+            }
+
+            // Add event listener to the button
+            const notifyButton = document.getElementById("notifyButton");
+            if (notifyButton) {
+                notifyButton.addEventListener("click", showNotification);
+                console.log("Event listener added to button");
+            } else {
+                console.error("Button with ID 'notifyButton' not found");
+            }
+        });
+
+    </script>
+
+</html>
+
+
+
+

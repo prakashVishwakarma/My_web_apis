@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Elements Example</title>
+    <script defer>
+        class MyGreeting extends HTMLElement {
+            constructor() {
+                super(); // Always call super() first in the constructor
+
+                // Attach a shadow root to the element
+                this.attachShadow({ mode: 'open' });
+
+                // Create a template
+                const template = document.createElement('template');
+                template.innerHTML = `
+                    <style>
+                        .greeting {
+                        color: blue;
+                        font-size: 20px;
+                        }
+                    </style>
+                    <div class="greeting">Hello, <span id="name"></span>!</div>
+                    `;
+
+                // Clone the template content and append it to the shadow root
+                this.shadowRoot.appendChild(template.content.cloneNode(true));
+            }
+
+            // Called when the element is inserted into the DOM
+            connectedCallback() {
+                const name = this.getAttribute('name') || 'World';
+                this.shadowRoot.getElementById('name').textContent = name;
+            }
+        }
+
+        // Define the custom element
+        customElements.define('my-greeting', MyGreeting);
+
+    </script>
+</head>
+
+<body>
+    <h1>Custom Elements Example</h1>
+    <!-- Use the custom element -->
+    <my-greeting name="Prakash"></my-greeting>
+    <my-greeting></my-greeting>
+</body>
+
+</html>

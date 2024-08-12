@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Battery Status API Example</title>
+</head>
+<body>
+    <h1>Battery Status</h1>
+    <p id="battery-status"></p>
+
+    <script>
+        // Check if the Battery Status API is supported
+        if (navigator.getBattery) {
+            navigator.getBattery().then(function(battery) {
+                // Function to update the battery status on the page
+                function updateBatteryStatus() {
+                    document.getElementById('battery-status').innerHTML = `
+                        <strong>Battery Status:</strong><br>
+                        Charging: ${battery.charging ? 'Yes' : 'No'}<br>
+                        Charging Time: ${battery.chargingTime} seconds<br>
+                        Discharging Time: ${battery.dischargingTime} seconds<br>
+                        Battery Level: ${(battery.level * 100).toFixed(0)}%
+                    `;
+                }
+
+                // Update the battery status initially
+                updateBatteryStatus();
+
+                // Add event listeners to update the battery status when it changes
+                battery.addEventListener('chargingchange', updateBatteryStatus);
+                battery.addEventListener('chargingtimechange', updateBatteryStatus);
+                battery.addEventListener('dischargingtimechange', updateBatteryStatus);
+                battery.addEventListener('levelchange', updateBatteryStatus);
+            });
+        } else {
+            document.getElementById('battery-status').innerHTML = 'Battery Status API is not supported on this browser.';
+        }
+    </script>
+</body>
+</html>

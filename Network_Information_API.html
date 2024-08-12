@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Information API</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // Check if the Network Information API is supported
+if ('connection' in navigator) {
+    // Access the network information object
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+
+    // Log basic network information
+    console.log('Effective Connection Type:', connection.effectiveType);
+    console.log('Downlink (Mbps):', connection.downlink);
+    console.log('Round-Trip Time (ms):', connection.rtt);
+    console.log('Save Data Enabled:', connection.saveData);
+
+    // Monitor changes in network information
+    connection.addEventListener('change', () => {
+        console.log('Network Information Changed');
+        console.log('Effective Connection Type:', connection.effectiveType);
+        console.log('Downlink (Mbps):', connection.downlink);
+        console.log('Round-Trip Time (ms):', connection.rtt);
+        console.log('Save Data Enabled:', connection.saveData);
+    });
+} else {
+    console.log('Network Information API is not supported by this browser.');
+}
+
+</script>
+</html>

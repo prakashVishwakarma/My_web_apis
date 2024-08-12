@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pointer Events API</title>
+    <style>
+        #interactive {
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+            border: 2px solid blue;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="interactive">Interact with me!</div>
+
+    <script>
+        const interactiveDiv = document.getElementById('interactive');
+
+        interactiveDiv.addEventListener('pointerdown', (event) => {
+            console.log('Pointer down:', event.pointerType, event.pointerId);
+            interactiveDiv.style.backgroundColor = 'lightcoral';
+        });
+
+        interactiveDiv.addEventListener('pointerup', (event) => {
+            console.log('Pointer up:', event.pointerType, event.pointerId);
+            interactiveDiv.style.backgroundColor = 'lightblue';
+        });
+
+        interactiveDiv.addEventListener('pointermove', (event) => {
+            console.log('Pointer move:', event.pointerType, event.pointerId, `Position: (${event.clientX}, ${event.clientY})`);
+        });
+
+        interactiveDiv.addEventListener('pointerenter', (event) => {
+            console.log('Pointer entered:', event.pointerType, event.pointerId);
+        });
+
+        interactiveDiv.addEventListener('pointerleave', (event) => {
+            console.log('Pointer left:', event.pointerType, event.pointerId);
+        });
+    </script>
+</body>
+
+</html>

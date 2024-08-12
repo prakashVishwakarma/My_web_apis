@@ -1,0 +1,53 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Element Timing API Example</title>
+    <style>
+        .content {
+            height: 200px;
+            background-color: lightcoral;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Element Timing API Example</h1>
+    <div class="content" id="target-element">Content to be measured</div>
+    <script defer>
+        // Function to start observing performance entries
+        function observeElementTiming() {
+            if (!window.PerformanceObserver) {
+                console.error('PerformanceObserver is not supported in this browser.');
+                return;
+            }
+
+            // Create a PerformanceObserver instance
+            const observer = new PerformanceObserver((list) => {
+                // Get the list of performance entries
+                const entries = list.getEntries();
+
+                // Iterate through the performance entries
+                entries.forEach((entry) => {
+                    console.log('Element Timing Entry:', entry);
+                });
+            });
+
+            // Start observing the 'element' entries
+            observer.observe({ type: 'element', buffered: true });
+
+            console.log('Started observing element timing.');
+        }
+
+        // Start observing once the document is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            observeElementTiming();
+        });
+
+    </script>
+</body>
+
+</html> -->

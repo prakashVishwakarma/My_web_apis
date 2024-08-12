@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Keyboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #inputField {
+            width: 300px;
+            height: 40px;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .keyboard {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 300px;
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+
+        .key {
+            width: 50px;
+            height: 50px;
+            margin: 2px;
+            text-align: center;
+            line-height: 50px;
+            background: #eee;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .key:hover {
+            background: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" id="inputField" placeholder="Click here to type">
+    <div id="keyboard" class="keyboard">
+        <!-- Keyboard keys will be inserted here by JavaScript -->
+    </div>
+    <script>
+        // JavaScript code to create and manage the virtual keyboard
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const keyboardLayout = [
+                'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
+                'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',
+                'Z', 'X', 'C', 'V', 'B', 'N', 'M',
+                'Space', 'Enter', 'Backspace'
+            ];
+
+            const inputField = document.getElementById('inputField');
+            const keyboardContainer = document.getElementById('keyboard');
+
+            // Function to create a keyboard key
+            function createKey(char) {
+                const keyElement = document.createElement('div');
+                keyElement.className = 'key';
+                keyElement.textContent = char;
+                keyElement.addEventListener('click', () => handleKeyPress(char));
+                return keyElement;
+            }
+
+            // Function to handle key press
+            function handleKeyPress(char) {
+                let currentValue = inputField.value;
+                if (char === 'Space') {
+                    inputField.value += ' ';
+                } else if (char === 'Enter') {
+                    inputField.value += '\n';
+                } else if (char === 'Backspace') {
+                    inputField.value = currentValue.slice(0, -1);
+                } else {
+                    inputField.value += char;
+                }
+            }
+
+            // Create and append keys to the keyboard
+            keyboardLayout.forEach(key => {
+                const keyElement = createKey(key);
+                keyboardContainer.appendChild(keyElement);
+            });
+        });
+
+    </script>
+</body>
+
+</html>

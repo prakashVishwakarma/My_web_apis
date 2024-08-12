@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaStream Recording Example</title>
+</head>
+
+<body>
+    <h1>MediaStream Recording Example</h1>
+    <video id="video" autoplay></video>
+    <button id="startButton">Start Recording</button>
+    <button id="stopButton" disabled>Stop Recording</button>
+    <h2>Recorded Video</h2>
+    <video id="recordedVideo" controls></video>
+
+    <script>
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const video = document.getElementById('video');
+        const recordedVideo = document.getElementById('recordedVideo');
+
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        // Request access to the user's webcam and microphone
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then(stream => {
+                video.srcObject = stream;
+
+                // Create a MediaRecorder instance
+                mediaRecorder = new MediaRecorder(stream);
+
+                // Event handler for data available
+                mediaRecorder.ondataavailable = event => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+
+                // Event handler for when recording stops
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                    recordedVideo.src = URL.createObjectURL(blob);
+                    recordedChunks = [];
+                };
+
+                // Start recording when the start button is clicked
+                startButton.addEventListener('click', () => {
+                    mediaRecorder.start();
+                    startButton.disabled = true;
+                    stopButton.disabled = false;
+                });
+
+                // Stop recording when the stop button is clicked
+                stopButton.addEventListener('click', () => {
+                    mediaRecorder.stop();
+                    startButton.disabled = false;
+                    stopButton.disabled = true;
+                });
+            })
+            .catch(error => {
+                console.error('Error accessing media devices.', error);
+            });
+    </script>
+</body>
+
+</html>

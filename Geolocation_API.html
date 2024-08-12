@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolocation API Example</title>
+</head>
+<body>
+    <button id="start-watching">Start Watching Location</button>
+    <button id="stop-watching">Stop Watching Location</button>
+    <div id="output"></div>
+
+    <script>
+        let watchId;
+
+        document.getElementById('start-watching').addEventListener('click', function() {
+            if (navigator.geolocation) {
+                watchId = navigator.geolocation.watchPosition(successCallback, errorCallback, {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                });
+            } else {
+                document.getElementById('output').textContent = 'Geolocation is not supported by this browser.';
+            }
+        });
+
+        document.getElementById('stop-watching').addEventListener('click', function() {
+            if (watchId) {
+                navigator.geolocation.clearWatch(watchId);
+                document.getElementById('output').textContent = 'Stopped watching location.';
+            }
+        });
+
+        function successCallback(position) {
+            const { latitude, longitude, accuracy } = position.coords;
+            const timestamp = position.timestamp;
+            document.getElementById('output').textContent = `
+                Latitude: ${latitude}
+                Longitude: ${longitude}
+                Accuracy: ${accuracy} meters
+                Timestamp: ${new Date(timestamp).toLocaleString()}
+            `;
+        }
+
+        function errorCallback(error) {
+            let errorMessage;
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    errorMessage = 'User denied the request for Geolocation.';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    errorMessage = 'Location information is unavailable.';
+                    break;
+                case error.TIMEOUT:
+                    errorMessage = 'The request to get user location timed out.';
+                    break;
+                case error.UNKNOWN_ERROR:
+                    errorMessage = 'An unknown error occurred.';
+                    break;
+            }
+            document.getElementById('output').textContent = errorMessage;
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolocation API Example</title>
+</head>
+<body>
+    <button id="get-location">Get Location</button>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('get-location').addEventListener('click', function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(successCallback, errorCallback, {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                });
+            } else {
+                document.getElementById('output').textContent = 'Geolocation is not supported by this browser.';
+            }
+        });
+
+        function successCallback(position) {
+            const { latitude, longitude, accuracy } = position.coords;
+            const timestamp = position.timestamp;
+            document.getElementById('output').textContent = `
+                Latitude: ${latitude}
+                Longitude: ${longitude}
+                Accuracy: ${accuracy} meters
+                Timestamp: ${new Date(timestamp).toLocaleString()}
+            `;
+        }
+
+        function errorCallback(error) {
+            let errorMessage;
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    errorMessage = 'User denied the request for Geolocation.';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    errorMessage = 'Location information is unavailable.';
+                    break;
+                case error.TIMEOUT:
+                    errorMessage = 'The request to get user location timed out.';
+                    break;
+                case error.UNKNOWN_ERROR:
+                    errorMessage = 'An unknown error occurred.';
+                    break;
+            }
+            document.getElementById('output').textContent = errorMessage;
+        }
+    </script>
+</body>
+</html> -->

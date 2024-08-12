@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web APIs</title>
+</head>
+
+<body>
+    <h1>Web APIs</h1>
+    <button id="openFileButton">Open File</button>
+    <button id="writeFileButton">Write File</button>
+    <button id="readDirectoryButton">Read Directory</button>
+
+    <script type="module">
+
+        async function saveFile() {
+            // Prompt the user to select a location and filename to save the file
+            const options = {
+                types: [
+                    {
+                        description: 'Text Files',
+                        accept: {
+                            'text/plain': ['.txt'],
+                        },
+                    },
+                ],
+            };
+            const fileHandle = await window.showSaveFilePicker(options);
+            // Create a writable stream
+            const writable = await fileHandle.createWritable();
+            // Write data to the file
+            await writable.write('Hello, World!');
+            // Close the file and write the contents to disk
+            await writable.close();
+        }
+
+
+
+
+        async function openFile() {
+            console.log("File open dialog triggered");
+            try {
+                // Prompt the user to select a file
+                const [fileHandle] = await window.showOpenFilePicker();
+                // Get a file from the handle
+                const file = await fileHandle.getFile();
+                // Read the file as text
+                const contents = await file.text();
+                console.log(contents);
+
+
+            } catch (err) {
+                console.error("Error: ", err);
+            }
+        }
+
+        async function readDirectory() {
+            // Prompt the user to select a directory
+            const directoryHandle = await window.showDirectoryPicker();
+            // Iterate through the directory entries
+            for await (const entry of directoryHandle.values()) {
+                if (entry.kind === 'file') {
+                    console.log(`File: ${entry.name}`);
+                } else if (entry.kind === 'directory') {
+                    console.log(`Directory: ${entry.name}`);
+                }
+            }
+        }
+
+
+        document.getElementById('openFileButton').addEventListener('click', openFile);
+        document.getElementById('writeFileButton').addEventListener('click', saveFile);
+        document.getElementById('readDirectoryButton').addEventListener('click', readDirectory);
+    </script>
+</body>
+
+</html>

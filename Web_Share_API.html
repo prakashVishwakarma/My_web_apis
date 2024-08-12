@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Share API Example</title>
+</head>
+
+<body>
+    <button id="shareButton">Share This Page</button>
+
+    <script>
+        document.getElementById('shareButton').addEventListener('click', async () => {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'Web Share API Demo',
+                        text: 'Check out this cool AI tool!',
+                        url: 'https://gemini.google.com/'
+                    });
+                    console.log('Content shared successfully');
+                } catch (error) {
+                    console.error('Error sharing content:', error);
+                }
+            } else {
+                console.log('Web Share API not supported in this browser');
+            }
+        });
+    </script>
+</body>
+
+</html>

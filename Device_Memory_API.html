@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Memory API Example</title>
+</head>
+
+<body>
+    <h1>Device Memory Information</h1>
+    <p id="memoryInfo">Checking device memory...</p>
+
+    <script>
+        // Check if the Device Memory API is supported
+        if ('deviceMemory' in navigator) {
+            const memory = navigator.deviceMemory;
+            document.getElementById('memoryInfo').innerText = `This device has approximately ${memory} GB of RAM.`;
+
+            // Example of adjusting application behavior based on device memory
+            if (memory <= 1) {
+                // Low memory device - optimize for performance
+                console.log('Low memory device detected. Enabling performance optimizations.');
+                enablePerformanceOptimizations();
+            } else {
+                // High memory device - enable more features
+                console.log('High memory device detected. Enabling all features.');
+                enableAllFeatures();
+            }
+        } else {
+            document.getElementById('memoryInfo').innerText = 'Device Memory API is not supported in this browser.';
+        }
+
+        function enablePerformanceOptimizations() {
+            // Implement performance optimizations here
+            console.log('Performance optimizations enabled.');
+        }
+
+        function enableAllFeatures() {
+            // Implement all features here
+            console.log('All features enabled.');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL API Example</title>
+</head>
+
+<body>
+    <h1>URL API Example</h1>
+    <button id="createUrlButton">Create and Manipulate URL</button>
+    <p id="urlOutput"></p>
+    <script>
+        document.getElementById('createUrlButton').addEventListener('click', () => {
+            // Create a new URL object
+            const url = new URL('https://www.example.com:8080/path/to/page?query=123#section');
+
+            // Display original URL
+            const output = document.getElementById('urlOutput');
+            output.innerHTML = `
+    <strong>Original URL:</strong> ${url.href}<br>
+    <strong>Protocol:</strong> ${url.protocol}<br>
+    <strong>Hostname:</strong> ${url.hostname}<br>
+    <strong>Port:</strong> ${url.port}<br>
+    <strong>Pathname:</strong> ${url.pathname}<br>
+    <strong>Search:</strong> ${url.search}<br>
+    <strong>Hash:</strong> ${url.hash}<br>
+  `;
+
+            // Modify URL properties
+            url.protocol = 'http:';
+            url.hostname = 'example.org';
+            url.port = '9090';
+            url.pathname = '/new/path';
+            url.search = '?newquery=456';
+            url.hash = '#newsection';
+
+            // Update search parameters using URLSearchParams
+            const params = new URLSearchParams(url.search);
+            params.append('extra', '789');
+            url.search = params.toString();
+
+            // Display updated URL
+            output.innerHTML += `
+    <hr>
+    <strong>Updated URL:</strong> ${url.href}<br>
+    <strong>Updated Protocol:</strong> ${url.protocol}<br>
+    <strong>Updated Hostname:</strong> ${url.hostname}<br>
+    <strong>Updated Port:</strong> ${url.port}<br>
+    <strong>Updated Pathname:</strong> ${url.pathname}<br>
+    <strong>Updated Search:</strong> ${url.search}<br>
+    <strong>Updated Hash:</strong> ${url.hash}<br>
+  `;
+        });
+
+    </script>
+</body>
+
+</html>
